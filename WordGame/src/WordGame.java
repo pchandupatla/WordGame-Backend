@@ -137,17 +137,25 @@ public class WordGame
                 " Once you have done so, you are given the amount of possible words that exist with any configuration of that string \n" +
                 " Your job is to guess all the possible word configurations that exist within your chosen random 6-letter String \n");
         Scanner kb = new Scanner(System.in);
+
         System.out.print("Enter 6-letter String to Play: ");
         String unscramble = kb.next().toLowerCase();
-        while(this.findAll(unscramble).size()==0 || unscramble.length() != 6)//searching for correct string to input
+        while(unscramble.length() != 6)
         {
-            System.out.println("Sorry, that String doesn't work! Enter a new String :");
+            System.out.println("Sorry, that string is not 6 characters long! Try another string.");
             unscramble = kb.next().toLowerCase();
         }
-        System.out.println("There are "+ this.findAll(unscramble).size()+" possible unscrambled words to guess!\nTips: Enter STOP at any time to quit! " +
-        "Enter HINT at any time for a quick hint (You only have three so use them wisely)! Enter words in lower-case. Have fun!");
+
         int size = this.findAll(unscramble).size();
-        int sizeStatic = this.findAll(unscramble).size();
+        while(size ==0)//searching for correct string to input
+        {
+            System.out.println("Sorry, that string doesn't have any good answers! Enter a new String :");
+            unscramble = kb.next().toLowerCase();
+            size = this.findAll(unscramble).size();
+        }
+        System.out.println("There are "+ size+" possible unscrambled words to guess!\nTips: Enter STOP at any time to quit! " +
+        "Enter HINT at any time for a quick hint (You only have three so use them wisely)! Enter words in lower-case. Have fun!");
+        int sizeStatic = size;
         System.out.println("Your scrambled string is "+ unscramble+ " ...Now unscramble!");
         System.out.println("");
         guessedAnswers = new TreeSet<>();
