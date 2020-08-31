@@ -8,7 +8,6 @@ public class WordGame
     Set<String> guessedAnswers;
     public WordGame() throws IOException
     {
-        String lastUsed = "";
         Scanner dict = new Scanner(new File("dictionary.txt")); //accesses dictionary file
         while(dict.hasNextLine()) { //while the file has more lines run the code for each line in the file
             String original = dict.nextLine(); //saves the original word to a variable
@@ -25,10 +24,8 @@ public class WordGame
                 }
                 storedSolutions.add(original);
                 dictionary.put(key, storedSolutions);
-                lastUsed = original;
             }
         }
-        System.out.println(lastUsed);
     }
 
     public String getKey(String a)//gets alphabetized key off of user input of random string
