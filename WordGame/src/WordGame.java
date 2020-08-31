@@ -28,7 +28,7 @@ public class WordGame
         }
     }
 
-    public String getKey(String a)//gets alphabetized key off of user input of random string
+    private String getKey(String a)//gets alphabetized key off of user input of random string
     {
         ArrayList<Character> alphabetize = new ArrayList<>();
         char[] input = a.toLowerCase().toCharArray();
@@ -48,7 +48,7 @@ public class WordGame
         return key.toString();
     }
 
-    public void findAnswers()//used in programming to debug solutions(finds all proper solutions to an inputted string)
+    private void findAnswers()//used in programming to debug solutions(finds all proper solutions to an inputted string)
     {
         Scanner kb = new Scanner(System.in);
         while(true)
@@ -65,7 +65,7 @@ public class WordGame
         }
     }
 
-    public Set<String> findAll(String input)//finds all words that can be gotten from unscrambling six-letter inputted string
+    private Set<String> findAll(String input)//finds all words that can be gotten from unscrambling six-letter inputted string
     {
         if(dictionary.get(this.getKey(input)) != null)
         {
@@ -89,7 +89,7 @@ public class WordGame
         return solutionSet;
     }
 
-    public void printStatements(int guessCounter, int hintCounter,int sizeStatic, Set<String> guessedAnswers)//abstraction for loading all post-game print statements
+    private void printStatements(int guessCounter, int hintCounter,int sizeStatic, Set<String> guessedAnswers)//abstraction for loading all post-game print statements
     {
         if(guessCounter==sizeStatic&&hintCounter==0)
         {
@@ -113,7 +113,7 @@ public class WordGame
         }
     }
 
-    public Set<String> returnUnusedAnswers(String a)//for hint and already guessed answers systems, sets of already guessed answers must be filtered out
+    private Set<String> returnUnusedAnswers(String a)//for hint and already guessed answers systems, sets of already guessed answers must be filtered out
     {
         Set<String> compare = new TreeSet<>(this.findAll(a));
         for(String compareString : guessedAnswers)
