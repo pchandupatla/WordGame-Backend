@@ -3,14 +3,15 @@ import java.io.IOException;
 import java.util.*;
 public class WordGame
 {
-    private Map<String,Set<String>> dictionary = new TreeMap<>();
+    private Map<String,Set<String>> dictionary = new HashMap<>();
     Set<String> solutionSet = new TreeSet<>();
     Set<String> guessedAnswers;
     public WordGame() throws IOException
     {
+        String lastUsed = "";
         Scanner dict = new Scanner(new File("dictionary.txt")); //accesses dictionary file
-        while(dict.hasNext()) { //while the file has more lines run the code for each line in the file
-            String original = dict.next(); //saves the original word to a variable
+        while(dict.hasNextLine()) { //while the file has more lines run the code for each line in the file
+            String original = dict.nextLine(); //saves the original word to a variable
             if (original.length() >= 3 && original.length() <= 6) { //words only used if the length is greater than 2 and less than 7
                 String key = getKey(original);
                 Set<String> storedSolutions;
@@ -24,26 +25,30 @@ public class WordGame
                 }
                 storedSolutions.add(original);
                 dictionary.put(key, storedSolutions);
+                lastUsed = original;
             }
         }
+        System.out.println(lastUsed);
     }
 
     public String getKey(String a)//gets alphabetized key off of user input of random string
     {
         ArrayList<Character> alphabetize = new ArrayList<>();
         char[] input = a.toLowerCase().toCharArray();
+
         for (int i = 0; i < input.length; i++)
         {
             alphabetize.add(input[i]);
         }
+
         Collections.sort(alphabetize);
         Iterator<Character> it = alphabetize.iterator();
-        String key = "";
+        StringBuilder key = new StringBuilder();
         while (it.hasNext())
         {
-            key += it.next() + "";
+            key.append(it.next());
         }
-        return key;
+        return key.toString();
     }
 
     public void findAnswers()//used in programming to debug solutions(finds all proper solutions to an inputted string)
@@ -65,34 +70,24 @@ public class WordGame
 
     public Set<String> findAll(String input)//finds all words that can be gotten from unscrambling six-letter inputted string
     {
-        if(dictionary.get(this.getKey(input))!=null)
+        if(dictionary.get(this.getKey(input)) != null)
         {
             solutionSet.addAll(dictionary.get(this.getKey(input)));
         }
+
         for (int i = 0; i <input.length() ; i++) //recursive loop to find 3 to 6 letter words
         {
-//            if(input.length() == 3)
-//            {
-//                break;
-//            }
-//            StringBuilder output = new StringBuilder(input);
-//            output.deleteCharAt(i);
-//            if(dictionary.get(this.getKey(output.toString()))!=null)
-//            {
-//                solutionSet.addAll(dictionary.get(this.getKey(output.toString())));
-//            }
-//            findAll(output.toString());
-            //@TODO does this work?
-            if(input.length() != 3)
+            if(input.length() == 3)
             {
-                StringBuilder output = new StringBuilder(input);
-                output.deleteCharAt(i);
-                if(dictionary.get(this.getKey(output.toString()))!=null)
-                {
-                    solutionSet.addAll(dictionary.get(this.getKey(output.toString())));
-                }
-                findAll(output.toString());
+                break;
             }
+            StringBuilder output = new StringBuilder(input);
+            output.deleteCharAt(i);
+            if(dictionary.get(this.getKey(output.toString())) != null)
+            {
+                solutionSet.addAll(dictionary.get(this.getKey(output.toString())));
+            }
+            findAll(output.toString());
         }
         return solutionSet;
     }
@@ -112,9 +107,10 @@ public class WordGame
                 System.out.println("Thanks for Playing! You got "+guessedAnswers.size() +" of the " +
                         ""+ sizeStatic+" words using "+guessCounter+" guess[es] and "+hintCounter+" hint[s]!");
                 System.out.println("Wow all of the hints... You really needed help huh" );
-            }else
+            }
+            else
             {
-                System.out.println("Thanks for Playing! You got"+guessedAnswers.size() +" of the " +
+                System.out.println("Thanks for Playing! You got "+guessedAnswers.size() +" of the " +
                         ""+ sizeStatic+" words using "+guessCounter+" guess[es] and "+hintCounter+" hint[s]!" );
             }
         }
